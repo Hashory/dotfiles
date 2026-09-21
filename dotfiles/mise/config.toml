@@ -1,0 +1,59 @@
+# =============================================================================
+# mise global configuration
+#
+# このファイルは ~/dotfiles により管理されています:
+#   ~/dotfiles/dotfiles/mise/config.toml  ->  ~/.config/mise/config.toml
+#
+# 編集後は `mise dot apply` (または `mise bootstrap`) で反映してください。
+# =============================================================================
+
+[tools]
+# --- 言語 / ランタイム ---
+node = "latest"
+pnpm = "latest"
+go = "latest"
+rust = "latest"
+uv = "latest"
+
+# --- 汎用 CLI ---
+just = "latest"
+rg = "latest"
+fd = "latest"
+jq = "latest"
+yq = "latest"
+ast-grep = "latest"
+eza = "latest"
+bat = "latest"
+fzf = "latest"
+delta = "latest"
+shellcheck = "latest"
+"cargo:tokei" = { version = "latest", depends = ["rust"] } # プリビルドが無いため Rust でビルド
+hyperfine = "latest"
+typst = "latest"
+gh = "latest"
+
+# --- AI ---
+opencode = "latest"
+codex = "latest"
+antigravity-cli = "latest"
+
+# --- プロンプト ---
+starship = "latest"
+
+# --- エディタ ---
+"aqua:neovim/neovim" = "latest"
+
+# --- VCS ---
+lazygit = "latest"
+jujutsu = "latest"
+# lazyjj は mise レジストリに無いため GitHub Releases から直接取得する。
+# 最新の 0.6.x にはバイナリが添付されていないため、バイナリのある 0.5.0 を固定。
+"github:Cretezy/lazyjj" = "0.5.0"
+
+[env]
+EDITOR = "nvim"
+VISUAL = "nvim"
+GIT_EDITOR = "nvim"
+
+[settings]
+fetch_remote_versions_timeout = "30s"

@@ -1,0 +1,115 @@
+# =============================================================================
+# dotfiles - mise bootstrap project
+#
+# 使い方:
+#   Linux / macOS : ./install.sh
+#   Windows       : pwsh -File install.ps1
+#
+# このファイルは「bootstrap プロジェクト設定」です。このディレクトリで
+# `mise bootstrap` を実行すると、下の [dotfiles] が適用されます。
+#
+# ツール本体とグローバルな環境変数はグローバル設定側
+#   dotfiles/mise/config.toml  ->  ~/.config/mise/config.toml
+# に定義しています。こうすることで、どのディレクトリでも
+# neovim / jujutsu / lazyjj などが使えるようになります。
+# =============================================================================
+
+min_version = "2026.9.0"
+
+[dotfiles]
+# mise のグローバル設定 (ツール / 環境変数) を配置
+"~/.config/mise/config.toml" = { source = "dotfiles/mise/config.toml", mode = "symlink" }
+
+# Git
+"~/.gitconfig" = { source = "dotfiles/git/.gitconfig", mode = "symlink" }
+"~/.gitignore_global" = { source = "dotfiles/git/.gitignore_global", mode = "symlink" }
+
+# starship (プロンプト設定。全プラットフォームで ~/.config/starship.toml を読む)
+"~/.config/starship.toml" = { source = "dotfiles/starship/starship.toml", mode = "symlink" }
+
+# WezTerm (設定は Windows 上。Windows 専用エントリ)
+# WSL と Windows のファイルシステムをまたぐため、symlink ではなく copy で配置する。
+[dotfiles."wezterm/wezterm.lua"]
+source = "dotfiles/wezterm/wezterm.lua"
+mode = "copy"
+variants = [
+  { os = "windows", target = "~/.config/wezterm/wezterm.lua" },
+]
+
+# Neovim 設定 (ディレクトリごと管理)
+[dotfiles."nvim"]
+source = "dotfiles/nvim"
+mode = "symlink"
+variants = [
+  { os = "windows", target = "~/AppData/Local/nvim" },
+  { os = "unix", target = "~/.config/nvim" },
+]
+
+# Jujutsu (プラットフォームごとに設定ファイルの場所が異なる)
+[dotfiles."jj/config.toml"]
+source = "dotfiles/jj/config.toml"
+mode = "symlink"
+variants = [
+  { os = "windows", target = "~/AppData/Roaming/jj/config.toml" },
+  { os = "unix", target = "~/.config/jj/config.toml" },
+]
+
+# bash のエイリアス / 関数 (~/.bashrc にブロックとして追記)
+[dotfiles."~/.bashrc/aliases"]
+block = '''
+# nv: 引数なしならカレントディレクトリを開く (nvim . 相当)
+# 変更前に起動したシェルに古い alias nv='nvim' が残っていても効くよう除去する
+unalias nv 2>/dev/null || true
+function nv {
+    if [ "$#" -eq 0 ]; then
+        nvim .
+    else
+        nvim "$@"
+    fi
+}
+alias lj='lazyjj'
+'''
+
+# starship の初期化を各シェルに追記
+[dotfiles."~/.bashrc/starship"]
+block = 'eval "$(starship init bash)"'
+
+[dotfiles."~/.zshrc/starship"]
+block = 'eval "$(starship init zsh)"'
+
+[dotfiles."~/.config/fish/config.fish/starship"]
+block = 'starship init fish | source'
+
+# PowerShell プロファイル (CurrentUserAllHosts) を丸ごと管理
+# $PROFILE ではなく、PowerShell が自動で読む profile.ps1 に配置する
+[dotfiles."powershell/profile.ps1"]
+source = "dotfiles/powershell/profile.ps1"
+mode = "symlink"
+variants = [
+  { os = "windows", target = "~/Documents/PowerShell/profile.ps1" },
+  { os = "unix", target = "~/.config/powershell/profile.ps1" },
+]
+
+# ホストパッケージ (Linux のみ)
+[bootstrap.packages]
+# podman はコンテナ実行環境のため、mise のツールではなくホストパッケージとして導入する
+"dnf:podman" = { os = ["linux"] }
+
+# シェルへの mise activation を追加 (bash / zsh / fish)
+[bootstrap.mise_shell_activate]
+bashrc = "activate"
+zshrc = "activate"
+fish = "activate"
+
+# bootstrap の最後にツールを確実にインストールする
+[tasks.bootstrap]
+description = "Install all mise-managed tools"
+run = "mise install"
+
+[tasks.status]
+description = "Show dotfiles / bootstrap / tools status"
+run = "mise dot status && mise bootstrap status"
+
+[tasks.apply]
+description = "Re-apply managed dotfiles"
+run = "mise dot apply --yes"
