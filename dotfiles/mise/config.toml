@@ -34,6 +34,9 @@ gh = "latest"
 
 # --- AI ---
 opencode = "latest"
+# opencode v2 (beta) は npm の @opencode-ai/cli で配布。バイナリ名は opencode2。
+# postinstall でネイティブバイナリを取得するため allow_builds が必須。
+"npm:@opencode-ai/cli" = { version = "beta", allow_builds = ["@opencode-ai/cli"] }
 codex = "latest"
 antigravity-cli = "latest"
 
