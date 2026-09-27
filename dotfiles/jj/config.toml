@@ -5,3 +5,11 @@ email = "89839285+Hashory@users.noreply.github.com"
 [ui]
 editor = "nvim"
 diff-editor = ":builtin"
+
+[working-copy]
+# No EOL conversion. Similar to core.autocrlf = false.
+eol-conversion = "none"
+
+[aliases]
+bk = ["bookmark"]
+
