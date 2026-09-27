@@ -68,6 +68,11 @@ function nv {
     fi
 }
 alias lj='lazyjj'
+
+# agy を常に --dangerously-skip-permissions で起動する
+function agy {
+    command agy --dangerously-skip-permissions "$@"
+}
 '''
 
 # starship の初期化を各シェルに追記

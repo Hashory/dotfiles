@@ -2,32 +2,13 @@
 
 # Prompt format
 # - Minimal, subdued styling without heavy background blocks
-# - Git modules removed per user request
+# - Git and language/project runtime modules removed per user request
 # - Explicit foreground colors defined for high readability on dark terminals
 format = """
 $os\
 $username\
 $hostname\
 $directory\
-$package\
-$c\
-$cmake\
-$elixir\
-$elm\
-$golang\
-$gradle\
-$haskell\
-$java\
-$julia\
-$lua\
-$maven\
-$nodejs\
-$bun\
-$nim\
-$rust\
-$scala\
-$python\
-$docker_context\
 $cmd_duration\
 $character"""
 
@@ -64,7 +45,7 @@ ssh_only = true
 style = "fg:#98c379"
 format = "[$hostname]($style) in "
 
-# Git modules are disabled as requested
+# Git modules are disabled
 [git_branch]
 disabled = true
 
@@ -81,102 +62,6 @@ disabled = true
 min_time = 2_000
 style = "fg:#e5c07b"
 format = "took [$duration]($style) "
-
-# Package and language runtimes (subdued colors, explicit foreground text colors)
-[package]
-symbol = "󰏗 "
-style = "bold fg:#c678dd"
-format = "[$symbol$version ]($style)"
-
-[c]
-symbol = " "
-style = "bold fg:#61afef"
-format = "[$symbol($version) ]($style)"
-
-[cmake]
-symbol = " "
-style = "bold fg:#61afef"
-format = "[$symbol($version) ]($style)"
-
-[docker_context]
-symbol = " "
-style = "bold fg:#61afef"
-format = "[$symbol$context ]($style)"
-
-[elixir]
-symbol = " "
-style = "bold fg:#c678dd"
-format = "[$symbol($version) ]($style)"
-
-[elm]
-symbol = " "
-style = "bold fg:#56b6c2"
-format = "[$symbol($version) ]($style)"
-
-[golang]
-symbol = " "
-style = "bold fg:#56b6c2"
-format = "[$symbol($version) ]($style)"
-
-[gradle]
-symbol = " "
-style = "bold fg:#56b6c2"
-format = "[$symbol($version) ]($style)"
-
-[haskell]
-symbol = " "
-style = "bold fg:#c678dd"
-format = "[$symbol($version) ]($style)"
-
-[java]
-symbol = " "
-style = "bold fg:#e06c75"
-format = "[$symbol($version) ]($style)"
-
-[julia]
-symbol = " "
-style = "bold fg:#c678dd"
-format = "[$symbol($version) ]($style)"
-
-[lua]
-symbol = " "
-style = "bold fg:#51a0cf"
-format = "[$symbol($version) ]($style)"
-
-[maven]
-symbol = " "
-style = "bold fg:#e06c75"
-format = "[$symbol($version) ]($style)"
-
-[nodejs]
-symbol = "󰌞 "
-style = "bold fg:#98c379"
-format = "[$symbol($version) ]($style)"
-
-[bun]
-symbol = " "
-style = "bold fg:#eed49f"
-format = "[$symbol($version) ]($style)"
-
-[nim]
-symbol = "󰆥 "
-style = "bold fg:#e5c07b"
-format = "[$symbol($version) ]($style)"
-
-[python]
-symbol = " "
-style = "bold fg:#e5c07b"
-format = "[$symbol($version) ]($style)"
-
-[rust]
-symbol = " "
-style = "bold fg:#d19a66"
-format = "[$symbol($version) ]($style)"
-
-[scala]
-symbol = " "
-style = "bold fg:#e06c75"
-format = "[$symbol($version) ]($style)"
 
 [time]
 disabled = true
